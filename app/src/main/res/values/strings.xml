@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">DesiredVacations</string>
+
+    <string name="no_vacations_yet">There is Nothing in Desired Vacations List Yet.</string>
+    <string name="add_vacation_btn_description">Add Vacation</string>
+    <string name="vacation_btn_details">details</string>
+    <string name="vacation_btn_edit">edit</string>
+</resources>
