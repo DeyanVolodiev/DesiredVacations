@@ -1,4 +1,4 @@
-package com.example.desiredvacations.ui.main
+package com.example.desiredvacations
 
 import android.media.Image
 

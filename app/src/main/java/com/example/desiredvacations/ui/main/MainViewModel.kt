@@ -1,11 +1,19 @@
 package com.example.desiredvacations.ui.main
 
+import android.app.Application
+import android.content.ClipDescription
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.example.desiredvacations.DatabaseHandler
+import com.example.desiredvacations.Vacation
 
-class MainViewModel : ViewModel() {
-  private var lastIndex: Int = 0
+class MainViewModel(application: Application) : AndroidViewModel(application) {
+
+  private val context = getApplication<Application>().applicationContext
+  private val databaseHandler = DatabaseHandler(context)
+
+  private var lastId: Int
 
   private val _vacations = MutableLiveData<MutableList<Vacation>>()
   val vacations: LiveData<MutableList<Vacation>> = _vacations
@@ -14,28 +22,37 @@ class MainViewModel : ViewModel() {
   val currentVacation: LiveData<Vacation> = _currentVacation
 
   init {
-    // Set initial values
-    // TODO get vacations list from the db
-    _vacations.value = mutableListOf(
-      Vacation(
-        lastIndex,
-        "Vacation Name",
-        "Some Hotel",
-        "Some City",
-        "0.0"
-      )
-    )
-  }
-
-  fun addVacation(name: String, hotelName: String, location: String, moneyNeeded: String) {
-    lastIndex = ++lastIndex
-    _vacations.value?.add(Vacation(lastIndex, name, hotelName, location, moneyNeeded))
-
-
-    // TODO add to the new vacation to DB
+    val vacationsInDB = databaseHandler.viewVacation()
+    _vacations.value = vacationsInDB
+    lastId = vacationsInDB.lastIndex
   }
 
   fun setCurrentVacation(id: Int) {
-    _currentVacation.value = _vacations.value?.get(id)
+    _currentVacation.value = _vacations.value?.filter { vacation -> vacation.id == id }?.get(0)
+  }
+
+  fun addVacation(name: String, hotelName: String, location: String, moneyNeeded: String) {
+    lastId = ++lastId
+    val newVacation = Vacation(lastId + 1, name, hotelName, location, moneyNeeded)
+
+    val status = databaseHandler.createVacation(newVacation)
+    if (status > -1) {
+      _vacations.value?.add(newVacation)
+    }
+  }
+
+  fun editVacation(newName: String, newHotelName: String, newLocation: String, newDescription: String, newMoneyNeeded: String) {
+
+  }
+
+  fun deleteVacation(id: Int) {
+    if (lastId == id) {
+      lastId = _vacations.value?.get(_vacations.value!!.lastIndex - 1)?.id ?: -1
+    }
+
+    val status = databaseHandler.deleteVacation(id)
+    if (status > -1){
+      _vacations.value = _vacations.value?.filter { vacation -> vacation.id != id } as MutableList<Vacation>
+    }
   }
 }

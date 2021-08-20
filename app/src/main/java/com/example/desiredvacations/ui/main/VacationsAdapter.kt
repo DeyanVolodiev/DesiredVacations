@@ -1,26 +1,38 @@
 package com.example.desiredvacations.ui.main
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.LiveData
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.desiredvacations.R
+import com.example.desiredvacations.Vacation
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class VacationsAdapter(
+  private val context:Context,
   private val vacations: LiveData<MutableList<Vacation>>,
-  private val viewModel: MainViewModel
+  private val shearedViewModel: MainViewModel
 ) :
   RecyclerView.Adapter<VacationsAdapter.VacationsViewHolder>() {
 
+  /**
+   * QUESTION:
+   * When I use LayoutInflater.inflate isn't it supposed to attach all view inside the xml to itemView,
+   * why do I have to declare them like this inside VacationsViewHolder?
+   */
   class VacationsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val tvVacationName: TextView = itemView.findViewById(R.id.tvVacationName)
     val tvVacationPlace: TextView = itemView.findViewById(R.id.tvVacationPlace)
     val btnVacationsCardDetailsBtn: Button = itemView.findViewById(R.id.btnVacationsCardDetailsBtn)
+    val cvVacationItem: CardView = itemView.findViewById(R.id.cvVacationItem)
   }
 
   override fun onCreateViewHolder(view: ViewGroup, viewType: Int): VacationsViewHolder {
@@ -30,6 +42,7 @@ class VacationsAdapter(
     )
   }
 
+  @SuppressLint("SetTextI18n")
   override fun onBindViewHolder(holder: VacationsViewHolder, position: Int) {
     val currentVacation = vacations.value?.get(position)
 
@@ -38,9 +51,23 @@ class VacationsAdapter(
       tvVacationPlace.text = "${currentVacation?.hotelName}, ${currentVacation?.location}"
 
       btnVacationsCardDetailsBtn.setOnClickListener {
-        currentVacation?.id?.let { it ->
-          navigateToDetailedVacation(it, holder.itemView)
+        currentVacation?.id?.let { it1 ->
+          navigateToDetailedVacation(it1, holder.itemView)
         }
+      }
+
+      cvVacationItem.setOnLongClickListener {
+        MaterialAlertDialogBuilder(context)
+          .setTitle("Delete Item?")
+          .setPositiveButton("Delete") { _, _ ->
+            currentVacation?.id?.let { it1 -> shearedViewModel.deleteVacation(it1) }
+            notifyItemRemoved(position)
+          }
+          .setNegativeButton("Cancel") { dialog, _ ->
+            dialog?.cancel()
+          }
+          .show()
+        true
       }
     }
   }
@@ -50,7 +77,8 @@ class VacationsAdapter(
   }
 
   private fun navigateToDetailedVacation(vacationId: Int, view: View) {
-    viewModel.setCurrentVacation(vacationId)
+    Log.e("id", "$vacationId")
+    shearedViewModel.setCurrentVacation(vacationId)
 
     findNavController(view).navigate(R.id.action_mainFragment_to_detailedVacationFragment)
   }

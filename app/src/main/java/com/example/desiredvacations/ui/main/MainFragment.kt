@@ -34,7 +34,7 @@ class MainFragment() : Fragment() {
     super.onViewCreated(view, savedInstanceState)
     binding?.mainFragment = this
 
-    vacationsAdapter = VacationsAdapter(sharedViewModel.vacations, sharedViewModel)
+    vacationsAdapter = VacationsAdapter(requireContext() ,sharedViewModel.vacations, sharedViewModel)
 
     binding?.tvNoVacationsYet?.visibility =
       if (sharedViewModel.vacations.value?.size == 0 || sharedViewModel.vacations.value?.size == null) View.VISIBLE else View.GONE
@@ -60,6 +60,8 @@ class MainFragment() : Fragment() {
   }
 
   fun openAddVacationDialog() {
+    Log.e("vacs", "${ sharedViewModel.vacations.value }")
+
     val updateDialog = Dialog(requireContext())
 
     updateDialog.setContentView(R.layout.fragment_add_vacation)
@@ -79,7 +81,6 @@ class MainFragment() : Fragment() {
     val btnCreateVacation = updateDialog.findViewById<Button>(R.id.btnCreateVacation)
 
     btnCreateVacation.setOnClickListener {
-      //TODO: validate the input
       val isInputValid: Boolean =
         addVacationDialogNameEditText.text.isNotEmpty()
             && addVacationDialogHotelNameEditText.text.isNotEmpty()
@@ -99,7 +100,6 @@ class MainFragment() : Fragment() {
         addVacationDialogPriceEditText.error = "Input Price Please"
       }
 
-      //TODO: then update the livedata and the db
       if (isInputValid) {
         sharedViewModel.addVacation(
           addVacationDialogNameEditText.text.toString(),
