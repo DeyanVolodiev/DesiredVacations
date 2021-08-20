@@ -16,4 +16,9 @@
     <string name="detailed_vacation_upload_image_button_hint">Upload Image</string>
     <string name="detailed_vacation_edit_vacation_button_hint">Edit Vacation</string>
     <string name="detailed_vacation_image_hint">Vacation Image</string>
+    <string name="price">Price</string>
+    <string name="description">Description</string>
+    <string name="location">Location</string>
+    <string name="hotel">Hotel</string>
+    <string name="vacation_image">Vacation Image</string>
 </resources>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="409dp"
@@ -22,7 +22,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/ic_baseline_default_image" />
+                app:srcCompat="@drawable/ic_baseline_default_image"
+                android:contentDescription="@string/vacation_image" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -30,7 +31,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/tvVacationName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="20dp"
@@ -40,7 +41,7 @@
                     tools:text="Vacation Name" />
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/tvVacationPlace"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -61,7 +62,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnVacationsCardDetailsBtn"
-                    style="?attr/borderlessButtonStyle"
+                    style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/vacation_btn_details" />

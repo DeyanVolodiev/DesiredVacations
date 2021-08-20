@@ -2,17 +2,30 @@ package com.example.desiredvacations
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.desiredvacations.ui.main.MainFragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupActionBarWithNavController
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(R.layout.main_activity) {
+
+  private lateinit var navController: NavController
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.main_activity)
-    if (savedInstanceState == null) {
-      supportFragmentManager.beginTransaction()
-        .replace(R.id.container, MainFragment.newInstance())
-        .commitNow()
-    }
+
+    // Retrieve NavController from the NavHostFragment
+    val navHostFragment = supportFragmentManager
+      .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+    navController = navHostFragment.navController
+
+    // Set up the action bar for use with the NavController
+    setupActionBarWithNavController(navController)
+  }
+
+  /**
+   * Handle navigation when the user chooses Up from the action bar.
+   */
+  override fun onSupportNavigateUp(): Boolean {
+    return navController.navigateUp() || super.onSupportNavigateUp()
   }
 }
