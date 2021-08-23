@@ -2,14 +2,13 @@ package com.example.desiredvacations.ui.main
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.desiredvacations.R
 import com.example.desiredvacations.databinding.FragmentDetailedVacationBinding
@@ -38,6 +37,7 @@ class DetailedVacationFragment : Fragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
+    binding?.detailedVacationFragment = this
 
     binding?.apply {
       // Specify the fragment as the lifecycle owner
@@ -65,6 +65,14 @@ class DetailedVacationFragment : Fragment() {
       updateDialog.findViewById<EditText>(R.id.editVacationDialogPriceEditText)
     val btnEditVacation = updateDialog.findViewById<Button>(R.id.btnEditVacation)
 
+    editVacationDialogNameEditText.setText(sharedViewModel.currentVacation.value?.name)
+    editVacationDialogHotelNameEditText.setText(sharedViewModel.currentVacation.value?.hotelName)
+    editVacationDialogLocationEditText.setText(sharedViewModel.currentVacation.value?.location)
+    editVacationDialogDescriptionEditText.setText(sharedViewModel.currentVacation.value?.description)
+    editVacationDialogPriceEditText.setText(sharedViewModel.currentVacation.value?.moneyNeeded)
+
+    updateDialog.show()
+
     btnEditVacation.setOnClickListener {
       val isInputValid: Boolean =
         editVacationDialogNameEditText.text.isNotEmpty()
@@ -72,23 +80,6 @@ class DetailedVacationFragment : Fragment() {
             && editVacationDialogLocationEditText.text.isNotEmpty()
             && editVacationDialogDescriptionEditText.text.isNotEmpty()
             && editVacationDialogPriceEditText.text.isNotEmpty()
-
-      if (editVacationDialogNameEditText.text.isEmpty()) {
-        editVacationDialogNameEditText.error = "Input Vacation Name Please"
-      }
-      if (editVacationDialogHotelNameEditText.text.isEmpty()) {
-        editVacationDialogHotelNameEditText.error = "Input Hotel Name Please"
-      }
-      if (editVacationDialogLocationEditText.text.isEmpty()) {
-        editVacationDialogLocationEditText.error = "Input Location Please"
-      }
-      if (editVacationDialogDescriptionEditText.text.isEmpty()) {
-        editVacationDialogDescriptionEditText.error = "Input Price Please"
-      }
-      if (editVacationDialogPriceEditText.text.isEmpty()) {
-        editVacationDialogPriceEditText.error = "Input Description Please"
-      }
-
 
       if (isInputValid) {
         sharedViewModel.editVacation(
@@ -98,11 +89,25 @@ class DetailedVacationFragment : Fragment() {
           editVacationDialogDescriptionEditText.text.toString(),
           editVacationDialogPriceEditText.text.toString()
         )
-
         Toast.makeText(requireContext(), "Vacation Edited!", Toast.LENGTH_SHORT).show()
         updateDialog.dismiss()
+      } else {
+        if (editVacationDialogNameEditText.text.isEmpty()) {
+          editVacationDialogNameEditText.error = "Input Vacation Name Please"
+        }
+        if (editVacationDialogHotelNameEditText.text.isEmpty()) {
+          editVacationDialogHotelNameEditText.error = "Input Hotel Name Please"
+        }
+        if (editVacationDialogLocationEditText.text.isEmpty()) {
+          editVacationDialogLocationEditText.error = "Input Location Please"
+        }
+        if (editVacationDialogDescriptionEditText.text.isEmpty()) {
+          editVacationDialogDescriptionEditText.error = "Input Price Please"
+        }
+        if (editVacationDialogPriceEditText.text.isEmpty()) {
+          editVacationDialogPriceEditText.error = "Input Description Please"
+        }
       }
     }
-    updateDialog.show()
   }
 }

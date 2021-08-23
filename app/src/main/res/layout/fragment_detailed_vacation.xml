@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -22,7 +23,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -46,13 +48,13 @@
                     android:gravity="end">
 
                     <ImageButton
-                        android:onClick="@{()-> detailedVacationFragment.openEditDialog()}"
                         android:id="@+id/btnDetailedVacationEdit"
                         style="?attr/materialButtonOutlinedStyle"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginTop="20dp"
                         android:contentDescription="@string/detailed_vacation_edit_vacation_button_hint"
+                        android:onClick="@{()-> detailedVacationFragment.openEditDialog()}"
                         android:src="@drawable/ic_baseline_edit" />
 
                     <ImageButton
@@ -80,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="@{viewModel.currentVacation.hotelName}"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 app:drawableStartCompat="@drawable/ic_baseline_hotel"
                 tools:text="Hotel name" />
 
@@ -90,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="@{viewModel.currentVacation.location}"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 app:drawableStartCompat="@drawable/ic_baseline_location"
                 tools:text="Location" />
 
@@ -100,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="@{viewModel.currentVacation.moneyNeeded}"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 app:drawableStartCompat="@drawable/ic_baseline_money"
                 tools:text="Money needed" />
 
@@ -110,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="@{viewModel.currentVacation.description}"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 app:drawableStartCompat="@drawable/ic_baseline_description"
                 tools:text="Description" />
         </LinearLayout>

@@ -15,14 +15,13 @@
         android:gravity="center"
         android:orientation="vertical">
 
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/editVacationDialogNameLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:hint="@string/add_vacation_dialog_name_hint"
+            android:hint="@string/edit_vacation_dialog_name_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -30,8 +29,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editVacationDialogNameEditText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.currentVacation.name}" />
+                android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -40,7 +38,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:hint="@string/add_vacation_dialog_hotel_hint"
+            android:hint="@string/edit_vacation_dialog_hotel_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addVacationDialogNameLayout"
@@ -49,9 +47,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editVacationDialogHotelNameEditText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.currentVacation.hotelName}" />
-            />
+                android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -60,7 +56,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:hint="@string/add_vacation_dialog_location_hint"
+            android:hint="@string/edit_vacation_dialog_location_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addVacationDialogHotelNameLayout"
@@ -71,7 +67,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.currentVacation.location}" />
-            />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -80,7 +75,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:hint="@string/add_vacation_dialog_location_hint"
+            android:hint="@string/edit_vacation_dialog_location_hint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addVacationDialogHotelNameLayout"
@@ -91,7 +86,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.currentVacation.description}" />
-            />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -101,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:gravity="center"
-            android:hint="@string/add_vacation_dialog_necessary_money"
+            android:hint="@string/edit_vacation_dialog_necessary_money"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addVacationDialogLocationLayout"
@@ -113,7 +107,6 @@
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:text="@{viewModel.currentVacation.moneyNeeded}" />
-            />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

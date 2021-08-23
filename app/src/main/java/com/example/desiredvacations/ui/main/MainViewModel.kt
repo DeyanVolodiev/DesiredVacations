@@ -1,7 +1,7 @@
 package com.example.desiredvacations.ui.main
 
 import android.app.Application
-import android.content.ClipDescription
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -41,8 +41,50 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
   }
 
-  fun editVacation(newName: String, newHotelName: String, newLocation: String, newDescription: String, newMoneyNeeded: String) {
+  fun editVacation(
+    newName: String,
+    newHotelName: String,
+    newLocation: String,
+    newDescription: String,
+    newMoneyNeeded: String
+  ) {
+    val newVacation = _currentVacation.value?.id?.let {
+      Vacation(
+        it,
+        newName,
+        newHotelName,
+        newLocation,
+        newMoneyNeeded,
+        newDescription
+      )
+    }
 
+    val status =
+      _currentVacation.value?.id?.let {
+        databaseHandler.updateVacations(
+          it,
+          newName,
+          newHotelName,
+          newLocation,
+          newMoneyNeeded,
+          newDescription
+        )
+      }
+
+    if (status != null) {
+      if (status > -1) {
+        _vacations.value?.forEach{ vacation: Vacation ->
+          if (vacation.id == _currentVacation.value?.id) {
+            vacation.name = newName
+            vacation.hotelName = newHotelName
+            vacation.location = newLocation
+            vacation.moneyNeeded = newMoneyNeeded
+            vacation.description = newDescription
+          }
+        }
+        _currentVacation.value = newVacation!!
+      }
+    }
   }
 
   fun deleteVacation(id: Int) {
@@ -51,8 +93,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     val status = databaseHandler.deleteVacation(id)
-    if (status > -1){
-      _vacations.value = _vacations.value?.filter { vacation -> vacation.id != id } as MutableList<Vacation>
+    if (status > -1) {
+      _vacations.value =
+        _vacations.value?.filter { vacation -> vacation.id != id } as MutableList<Vacation>
     }
   }
 }

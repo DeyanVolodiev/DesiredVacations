@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.example.desiredvacations.databinding.MainFragmentBinding
-import androidx.fragment.app.*
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.desiredvacations.R
-
+import com.example.desiredvacations.databinding.MainFragmentBinding
 
 class MainFragment() : Fragment() {
 
@@ -34,7 +34,8 @@ class MainFragment() : Fragment() {
     super.onViewCreated(view, savedInstanceState)
     binding?.mainFragment = this
 
-    vacationsAdapter = VacationsAdapter(requireContext() ,sharedViewModel.vacations, sharedViewModel)
+    vacationsAdapter =
+      VacationsAdapter(requireContext(), sharedViewModel.vacations, sharedViewModel)
 
     binding?.tvNoVacationsYet?.visibility =
       if (sharedViewModel.vacations.value?.size == 0 || sharedViewModel.vacations.value?.size == null) View.VISIBLE else View.GONE
@@ -60,25 +61,27 @@ class MainFragment() : Fragment() {
   }
 
   fun openAddVacationDialog() {
-    Log.e("vacs", "${ sharedViewModel.vacations.value }")
+    Log.e("vacs", "${sharedViewModel.vacations.value}")
 
-    val updateDialog = Dialog(requireContext())
+    val addDialog = Dialog(requireContext())
 
-    updateDialog.setContentView(R.layout.fragment_add_vacation)
+    addDialog.setContentView(R.layout.fragment_add_vacation)
     /**
      * QUESTION:
      * Here I'm declaring variables for every view inside the layout, because it couldn't find them.
-     * Aren't the views supposed to be accessible from the updateDialog object after I use the inflate() function?
+     * Aren't the views supposed to be accessible from the updateDialog object after I use the setContentView() function?
      */
     val addVacationDialogNameEditText =
-      updateDialog.findViewById<EditText>(R.id.addVacationDialogNameEditText)
+      addDialog.findViewById<EditText>(R.id.addVacationDialogNameEditText)
     val addVacationDialogHotelNameEditText =
-      updateDialog.findViewById<EditText>(R.id.addVacationDialogHotelNameEditText)
+      addDialog.findViewById<EditText>(R.id.addVacationDialogHotelNameEditText)
     val addVacationDialogLocationEditText =
-      updateDialog.findViewById<EditText>(R.id.addVacationDialogLocationEditText)
+      addDialog.findViewById<EditText>(R.id.addVacationDialogLocationEditText)
     val addVacationDialogPriceEditText =
-      updateDialog.findViewById<EditText>(R.id.addVacationDialogPriceEditText)
-    val btnCreateVacation = updateDialog.findViewById<Button>(R.id.btnCreateVacation)
+      addDialog.findViewById<EditText>(R.id.addVacationDialogPriceEditText)
+    val btnCreateVacation = addDialog.findViewById<Button>(R.id.btnCreateVacation)
+
+    addDialog.show()
 
     btnCreateVacation.setOnClickListener {
       val isInputValid: Boolean =
@@ -86,19 +89,6 @@ class MainFragment() : Fragment() {
             && addVacationDialogHotelNameEditText.text.isNotEmpty()
             && addVacationDialogLocationEditText.text.isNotEmpty()
             && addVacationDialogPriceEditText.text.isNotEmpty()
-
-      if (addVacationDialogNameEditText.text.isEmpty()) {
-        addVacationDialogNameEditText.error = "Input Vacation Name Please"
-      }
-      if (addVacationDialogHotelNameEditText.text.isEmpty()) {
-        addVacationDialogHotelNameEditText.error = "Input Hotel Name Please"
-      }
-      if (addVacationDialogLocationEditText.text.isEmpty()) {
-        addVacationDialogLocationEditText.error = "Input Location Please"
-      }
-      if (addVacationDialogPriceEditText.text.isEmpty()) {
-        addVacationDialogPriceEditText.error = "Input Price Please"
-      }
 
       if (isInputValid) {
         sharedViewModel.addVacation(
@@ -112,10 +102,22 @@ class MainFragment() : Fragment() {
             it
           )
         }
-        Toast.makeText(requireContext() ,"Vacation Added!",Toast.LENGTH_SHORT).show()
-        updateDialog.dismiss()
+        Toast.makeText(requireContext(), "Vacation Added!", Toast.LENGTH_SHORT).show()
+        addDialog.dismiss()
+      } else {
+        if (addVacationDialogNameEditText.text.isEmpty()) {
+          addVacationDialogNameEditText.error = "Input Vacation Name Please"
+        }
+        if (addVacationDialogHotelNameEditText.text.isEmpty()) {
+          addVacationDialogHotelNameEditText.error = "Input Hotel Name Please"
+        }
+        if (addVacationDialogLocationEditText.text.isEmpty()) {
+          addVacationDialogLocationEditText.error = "Input Location Please"
+        }
+        if (addVacationDialogPriceEditText.text.isEmpty()) {
+          addVacationDialogPriceEditText.error = "Input Price Please"
+        }
       }
     }
-    updateDialog.show()
   }
 }

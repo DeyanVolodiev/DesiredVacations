@@ -5,12 +5,20 @@
     <string name="add_vacation_btn_description">Add Vacation</string>
     <string name="vacation_btn_details">details</string>
     <string name="vacation_btn_edit">edit</string>
+
     <string name="add_vacation_dialog_name_hint">Desired Vacation Name</string>
     <string name="add_vacation_dialog_hotel_hint">Hotel Name</string>
     <string name="add_vacation_dialog_location_hint">Location</string>
     <string name="add_vacation_dialog_necessary_money">Necessary Money</string>
     <string name="add_vacation_dialog_description">Vacation Description</string>
     <string name="add_vacation_dialog_create_vacation">Create Vacation</string>
+
+    <string name="edit_vacation_dialog_name_hint">New Desired Vacation Name</string>
+    <string name="edit_vacation_dialog_hotel_hint">New Hotel Name</string>
+    <string name="edit_vacation_dialog_location_hint">New Location</string>
+    <string name="edit_vacation_dialog_necessary_money">Necessary Money</string>
+    <string name="edit_vacation_dialog_description">New Vacation Description</string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="detailed_vacation_upload_image_button_hint">Upload Image</string>
     <string name="detailed_vacation_edit_vacation_button_hint">Edit Vacation</string>
