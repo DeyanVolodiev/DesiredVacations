@@ -1,6 +1,7 @@
 package com.example.desiredvacations
 
-import android.media.Image
+import android.content.Context
+import android.graphics.Bitmap
 
 data class Vacation(
   val id: Int,
@@ -8,6 +9,6 @@ data class Vacation(
   var hotelName: String,
   var location: String,
   var moneyNeeded: String,
-  var description: String = "No description added yet.",
-  // var image:Image
-  )
+  var description: String,
+  var image: Bitmap
+)

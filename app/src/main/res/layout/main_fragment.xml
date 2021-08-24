@@ -42,7 +42,7 @@
             android:id="@+id/btnAddVacation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="40dp"
             android:backgroundTint="@color/purple_500"
             android:clickable="true"
             android:contentDescription="@string/add_vacation_btn_description"
@@ -51,7 +51,7 @@
             android:src="@drawable/ic_baseline_add"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintHorizontal_bias="0.9"
             app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

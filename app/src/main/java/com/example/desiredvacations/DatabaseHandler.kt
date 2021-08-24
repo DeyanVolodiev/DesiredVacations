@@ -7,12 +7,14 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 
 //creating the database logic, extending the SQLiteOpenHelper base class
 class DatabaseHandler(context: Context) :
   SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
   companion object {
-    private const val DATABASE_VERSION = 3
+    private const val DATABASE_VERSION = 6
     private const val DATABASE_NAME = "Desired Vacations"
 
     private const val TABLE_DESIRED_VACATIONS = "DesiredVacations"
@@ -23,6 +25,7 @@ class DatabaseHandler(context: Context) :
     private const val KEY_LOCATION = "location"
     private const val KEY_MONEY_NEEDED = "moneyNeeded"
     private const val KEY_DESCRIPTION = "description"
+    private const val KEY_IMAGE = "image"
   }
 
   override fun onCreate(db: SQLiteDatabase?) {
@@ -32,7 +35,8 @@ class DatabaseHandler(context: Context) :
         "$KEY_HOTEL_NAME TEXT," +
         "$KEY_LOCATION TEXT," +
         "$KEY_MONEY_NEEDED TEXT," +
-        "$KEY_DESCRIPTION TEXT" +
+        "$KEY_DESCRIPTION TEXT," +
+        "$KEY_IMAGE BLOB" +
         ");"
 
     db?.execSQL(createCitiesTable)
@@ -68,6 +72,7 @@ class DatabaseHandler(context: Context) :
     var location: String
     var moneyNeeded: String
     var description: String
+    var image: Bitmap
 
     if (cursor.moveToFirst()) {
       do {
@@ -78,7 +83,18 @@ class DatabaseHandler(context: Context) :
         moneyNeeded = cursor.getString(cursor.getColumnIndex(KEY_MONEY_NEEDED))
         description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
 
-        val vacation = Vacation(id, name, hotelName, location, moneyNeeded, description)
+        val temp = cursor.getBlob(cursor.getColumnIndex(KEY_IMAGE))
+        image = BitmapFactory.decodeByteArray(temp, 0, temp.size)
+
+        val vacation = Vacation(
+          id,
+          name,
+          hotelName,
+          location,
+          moneyNeeded,
+          description,
+          image
+        )
         vacationsList.add(vacation)
 
       } while (cursor.moveToNext())
@@ -89,7 +105,7 @@ class DatabaseHandler(context: Context) :
   /**
    * Function to insert city record
    */
-  fun createVacation(vacation: Vacation): Long {
+  fun createVacation(vacation: Vacation, imageByteArr:ByteArray): Long {
     val db = this.writableDatabase
 
     val contentValues = ContentValues()
@@ -98,6 +114,7 @@ class DatabaseHandler(context: Context) :
     contentValues.put(KEY_LOCATION, vacation.location)
     contentValues.put(KEY_MONEY_NEEDED, vacation.moneyNeeded)
     contentValues.put(KEY_DESCRIPTION, vacation.description)
+    contentValues.put(KEY_IMAGE, imageByteArr)
 
     val result = db.insert(TABLE_DESIRED_VACATIONS, null, contentValues)
 
@@ -142,6 +159,19 @@ class DatabaseHandler(context: Context) :
 
     // Deleting Row
     val result = db.delete(TABLE_DESIRED_VACATIONS, "$KEY_ID=$VacationToDeleteId", null)
+
+    db.close()
+    return result
+  }
+
+  fun changeImage(vacationId: Int, image: ByteArray): Int {
+    val db = this.writableDatabase
+
+    val contentValues = ContentValues()
+    contentValues.put(KEY_IMAGE, image)
+
+    // Updating Row
+    val result = db.update(TABLE_DESIRED_VACATIONS, contentValues, "$KEY_ID=${vacationId}", null)
 
     db.close()
     return result

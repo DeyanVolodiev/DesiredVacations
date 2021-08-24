@@ -29,4 +29,8 @@
     <string name="hotel">Hotel</string>
     <string name="vacation_image">Vacation Image</string>
     <string name="edit_vacation">edit vacation</string>
+    <string name="add_notification">Add notification</string>
+    <string name="select_time">select time</string>
+    <string name="set_notification">set notification</string>
+    <string name="time">Time</string>
 </resources>
